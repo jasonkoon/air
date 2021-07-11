@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-pm2": "pm2 stop air && tsc && pm2 start dist/server.js --name air && pm2 save"
+    "start-pm2": "pm2 stop air && tsc && cp -r src/public/ ./dist/su && pm2 start dist/server.js --name air && pm2 save"
   },
   "author": "",
   "license": "ISC",
