@@ -1,13 +1,14 @@
 import { Gpio } from 'onoff';
 
-const button = new Gpio(4, 'in', 'rising', { debounceTimeout: 50 });
+const button = new Gpio(4, 'in', 'rising', { debounceTimeout: 200 });
 
-export const watchButton = (toggle: () => void) => {
+export const watchButton = (callback: (onOff: boolean) => void) => {
   button.watch((err, value) => {
     if (err) {
       throw err;
     }
-    toggle();
+    console.log(`button value ${value}`);
+    callback(value === 1);
   });
 };
 

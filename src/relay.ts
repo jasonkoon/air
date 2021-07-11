@@ -9,7 +9,11 @@ export const turnOn = () => {
 export const turnOff = () => {
   relay.writeSync(1);
 };
-turnOff();
+
+export const getStatus = () => {
+  return relay.readSync() === 0;
+};
+
 process.on('SIGINT', _ => {
   relay.unexport();
 });

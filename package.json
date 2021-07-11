@@ -6,16 +6,19 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-pm2": "tsc && pm2 start dist/server.js && pm2 save"
+    "start-pm2": "pm2 stop air && tsc && pm2 start dist/server.js --name air && pm2 save"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^15.12.4",
-    "ts-node-dev": "^1.1.6",
-    "typescript": "^4.3.4"
+    "@types/node": "^16.3.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.3.5"
   },
   "dependencies": {
-    "onoff": "^6.0.3"
+    "fastify": "^3.19.0",
+    "fastify-static": "^4.2.2",
+    "onoff": "^6.0.3",
+    "pino-pretty": "^5.1.1"
   }
 }

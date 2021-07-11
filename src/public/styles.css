@@ -1,0 +1,25 @@
+a:link,
+a:visited {
+  background-color: #f44336;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+a:hover,
+a:active {
+  background-color: red;
+}
+a {
+  margin: 10px;
+  height: 40vh;
+  font-size: 100px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
