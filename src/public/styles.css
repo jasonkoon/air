@@ -23,3 +23,8 @@ a {
   flex-direction: column;
   justify-content: center;
 }
+
+#status {
+  font-size: 80px;
+  align-self: center;
+}

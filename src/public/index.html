@@ -1,31 +1,45 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
 </head>
-
-<script>
-    const getStatus = () => {
-        document.getElementById("status").innerHTML = "checking..."
-        const listener = (response) => {
-            document.getElementById("status").innerHTML = response.currentTarget.responseText;
-        }
-        var oReq = new XMLHttpRequest();
-        oReq.addEventListener("load", listener);
-        oReq.open("GET", "/status");
-        oReq.send();
-    }
-    setInterval(getStatus, 5000);
-    // getStatus();
-</script>
+<script src="https://unpkg.com/vue"></script>
 
 <body>
-    <div class="container">
-        <div id="status">unknown</div>
+    <div id="app" class="container">
+        <div id="status">{{status}}</div>
         <a href="/on">on</a>
 
         <a href="/off">off</a>
     </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                status: 'unknown'
+            },
+            methods: {
+                getStatus: function () {
+                    console.log('getstatus')
+                    this.status = 'checking...';
+
+                    const listener = response => {
+                        this.status =
+                            response.currentTarget.responseText;
+                    };
+                    var oReq = new XMLHttpRequest();
+                    oReq.addEventListener('load', listener);
+                    oReq.open('GET', '/status');
+                    oReq.send();
+                }
+            }
+        })
+
+
+        setInterval(app.getStatus, 2000);
+        // app.getStatus();
+    </script>
 </body>
 
 </html>

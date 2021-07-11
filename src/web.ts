@@ -24,7 +24,11 @@ export const startWeb = async (callback: (onOff: boolean) => void) => {
     reply.redirect(302, '/');
   };
   const handleStatus = async (request: FastifyRequest, reply: FastifyReply) => {
-    return { status: getStatus() };
+    const status = getStatus();
+    if (status) {
+      return 'on';
+    }
+    return 'off';
   };
   fastify.register(fastifyStatic, {
     root: path.join(__dirname, 'public'),
