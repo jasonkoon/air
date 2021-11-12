@@ -23,6 +23,6 @@ const timedActivate = (onOff: boolean) => {
 
 startWeb(timedActivate);
 
-console.log('starting button watch');
-watchButton(timedActivate);
-console.log('button Watching');
+// console.log('starting button watch');
+// watchButton(timedActivate);
+// console.log('button Watching');
