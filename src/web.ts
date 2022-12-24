@@ -2,47 +2,54 @@ import Fastify, {
   FastifyLoggerOptions,
   FastifyReply,
   FastifyRequest,
-} from 'fastify';
-import { PrettyOptions } from 'fastify/types/logger';
-import { getStatus, turnOff, turnOn } from './relay';
-import fastifyStatic from 'fastify-static';
-import path from 'path';
+  FastifyLoggerInstance,
+} from "fastify";
+import { PrettyOptions } from "fastify/types/logger";
+import { getStatus, turnOff, turnOn } from "./relay";
+import fastifyStatic from "fastify-static";
+import path from "path";
 
-export const startWeb = async (callback: (onOff: boolean) => void) => {
+export const startWeb = async (
+  callback: (onOff: boolean, logger: FastifyLoggerInstance) => void
+) => {
   const prettyOptions: PrettyOptions = { colorize: true };
   const loggerOptions: FastifyLoggerOptions = {
     prettyPrint: prettyOptions,
+    level: "warn",
   };
   const fastify = await Fastify({ logger: loggerOptions });
 
   const handleOn = async (request: FastifyRequest, reply: FastifyReply) => {
-    callback(true);
-    reply.redirect(302, '/');
+    callback(true, fastify.log);
+    fastify.log.warn("web turn on");
+    return {};
   };
   const handleOff = async (request: FastifyRequest, reply: FastifyReply) => {
-    callback(false);
-    reply.redirect(302, '/');
+    callback(false, fastify.log);
+    fastify.log.warn("web turn off");
+    return {};
   };
   const handleStatus = async (request: FastifyRequest, reply: FastifyReply) => {
     const status = getStatus();
-    if (status) {
-      return 'on';
+    if (await status) {
+      return "on";
     }
-    return 'off';
+
+    return "off";
   };
   fastify.register(fastifyStatic, {
-    root: path.join(__dirname, 'public'),
+    root: path.join(__dirname, "public"),
   });
 
-  fastify.route({ url: '/on', method: 'GET', handler: handleOn });
-  fastify.route({ url: '/off', method: 'GET', handler: handleOff });
-  fastify.route({ url: '/status', method: 'GET', handler: handleStatus });
+  fastify.route({ url: "/on", method: "GET", handler: handleOn });
+  fastify.route({ url: "/off", method: "GET", handler: handleOff });
+  fastify.route({ url: "/status", method: "GET", handler: handleStatus });
 
   const start = async () => {
     try {
       const port = 3000;
-      await fastify.listen(port, '0.0.0.0');
-      fastify.log.info(`web listening on ${port}`);
+      await fastify.listen(port, "0.0.0.0");
+      fastify.log.warn(`web listening on ${port}`);
     } catch (err) {
       fastify.log.error(err);
       process.exit(1);
